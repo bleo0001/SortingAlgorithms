@@ -10,8 +10,6 @@ slider.oninput = function() {
   ArraySize = this.value;
 };
 
-
-
 window.onload = DrawGraph();
 window.onload = GenerateArray();
 
@@ -47,8 +45,7 @@ function SortingGraph(highlighted1, highlighted2) { //draws the barchart onto th
     var currX = 1; //space between Rectangles
     var base = 400; //Canvas Height
     
-    
-    
+
     for (var i = 0;i<Values.length;i++){
         if (i == highlighted1){
             ctx.fillStyle = 'yellow';
@@ -62,8 +59,6 @@ function SortingGraph(highlighted1, highlighted2) { //draws the barchart onto th
         currX += width + 10;
     }
     }
-
-
 
 function GenerateArray() {  //Clears and repopulates the array with random values
     Values = [];
@@ -91,4 +86,24 @@ function GenerateArray() {  //Clears and repopulates the array with random value
 
  function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+
+  async function insertionSort(){
+    var i, len = Values.length, el, j;
+  
+    for(i = 1; i<len; i++){
+      el = Values[i];
+      j = i;
+      while(j>0 && Values[j-1]>el){
+          SortingGraph(j,j-1);
+          await sleep(500);
+        Values[j] = Values[j-1];
+        j--;
+     }
+  
+     Values[j] = el;
+    }
+  
+   DrawGraph();
   }
