@@ -1,4 +1,5 @@
 var Values = [];
+Sortingspeed = 200;
 ArraySize = 50;
 var slider = document.getElementById("Slider");
 var output = document.getElementById("output");
@@ -73,15 +74,17 @@ function GenerateArray() {  //Clears and repopulates the array with random value
     for (var i = len-1; i>=0; i--){  
       for(var j = 1; j<=i; j++){
         if(Values[j-1]>Values[j]){
-            SortingGraph(j-1,j);
-            await sleep(200);
+          SortingGraph(j-1,-1);
+           await sleep(Sortingspeed+100);
+           SortingGraph(j-1,j);
+           await sleep(Sortingspeed);
             var temp = Values[j-1];
          Values[j-1] = Values[j],50000
             Values[j] = temp;
          }
       }
     }
-    setTimeout(DrawGraph(),999999999);
+   DrawGraph();
  }
 
  function sleep(ms) {
