@@ -1,6 +1,13 @@
 var Values = [];
 Sortingspeed = 200;
 ArraySize = 50;
+SelectedAlgorithm = "empty";
+bubble = "Bubble Sort";
+Quick = "Quick Sort";
+Merge = "Merge Sort";
+Binary = "Binary Tree Sort";
+Insertion ="Insertion";
+
 var slider = document.getElementById("Slider");
 var output = document.getElementById("output");
 output.innerHTML = slider.value; // Display the default slider value
@@ -9,6 +16,23 @@ output.innerHTML = slider.value; // Display the default slider value
 slider.oninput = function() {
   output.innerHTML = this.value;
   ArraySize = this.value;
+  GenerateArray();
+};
+
+var Sslider = document.getElementById("SSlider");
+var Soutput = document.getElementById("Soutput");
+output.innerHTML = slider.value; // Display the default slider value
+
+// Update the current slider value (each time you drag the slider handle)
+Sslider.oninput = function() {
+  Soutput.innerHTML = this.value;
+  Sortingspeed = parseInt(this.value);
+};
+
+async function SelectAlgo(Algorithm){
+  console.log(Algorithm);
+  document.getElementById("SelectedAlgorithm").innerHTML = Algorithm;
+  SelectedAlgorithm = Algorithm;
 };
 
 window.onload = DrawGraph();
@@ -68,29 +92,35 @@ function GenerateArray() {  //Clears and repopulates the array with random value
     }
     DrawGraph();
 }
-
+//------------------------------------------------------------------------------------------------------
+//bubblesort Algorithm
+//------------------------------------------------------------------------------------------------------
  async function bubbleSort(){
     var len = Values.length;
     for (var i = len-1; i>=0; i--){  
       for(var j = 1; j<=i; j++){
         if(Values[j-1]>Values[j]){
-          SortingGraph(j-1,-1);
+          SortingGraph(j-1,-1);  
            await sleep(Sortingspeed+100);
            SortingGraph(j-1,j);
            await sleep(Sortingspeed);
             var temp = Values[j-1];
          Values[j-1] = Values[j],50000
             Values[j] = temp;
+            DrawGraph();
+            await sleep(Sortingspeed);
          }
       }
     }
-   DrawGraph();
  }
 
  function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
+//------------------------------------------------------------------------------------------------------
+//insertion Algorithm
+//------------------------------------------------------------------------------------------------------
 
   async function insertionSort(){
     var i, len = Values.length, el, j;
