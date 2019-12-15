@@ -1,3 +1,6 @@
+//-----------------------------------------------------------------------------------
+//                                  Global Variables                                |
+//-----------------------------------------------------------------------------------
 var Values = [];
 Sortingspeed = 200;
 ArraySize = 50;
@@ -7,33 +10,50 @@ Quick = "Quick Sort";
 Merge = "Merge Sort";
 Binary = "Binary Tree Sort";
 Insertion ="Insertion";
-
-var slider = document.getElementById("Slider");
+//-----------------------------------------------------------------------------------
+//                                    Control panel                                 |
+//-----------------------------------------------------------------------------------
+var slider = document.getElementById("Slider"); // Slider for array size
 var output = document.getElementById("output");
-output.innerHTML = slider.value; // Display the default slider value
+output.innerHTML = slider.value; 
 
-// Update the current slider value (each time you drag the slider handle)
+
+var Sslider = document.getElementById("SSlider");//Slider for sorting speed
+var Soutput = document.getElementById("Soutput");
+output.innerHTML = slider.value; 
+
+// Update the current slider value (each time you drag the slider handle generates the array to the apropriate size)
 slider.oninput = function() {
   output.innerHTML = this.value;
   ArraySize = this.value;
   GenerateArray();
 };
 
-var Sslider = document.getElementById("SSlider");
-var Soutput = document.getElementById("Soutput");
-output.innerHTML = slider.value; // Display the default slider value
 
-// Update the current slider value (each time you drag the slider handle)
+// Update the current slider value (each time you drag the slider handle changes the sorting speed)
 Sslider.oninput = function() {
   Soutput.innerHTML = this.value;
   Sortingspeed = parseInt(this.value);
 };
 
+//gets the selected algorithm from the dropdown box
 async function SelectAlgo(Algorithm){
   console.log(Algorithm);
   document.getElementById("SelectedAlgorithm").innerHTML = Algorithm;
   SelectedAlgorithm = Algorithm;
 };
+
+function GenerateArray() {  //Clears and repopulates the array with random values
+  Values = [];
+  for (var i=0; i<ArraySize; i++) {
+      Values.push(Math.round(Math.random() * 350))
+  }
+  DrawGraph();
+}
+
+//-----------------------------------------------------------------------------------
+//                             Drawing to JS canvas                                  |
+//-----------------------------------------------------------------------------------
 
 window.onload = DrawGraph();
 window.onload = GenerateArray();
@@ -84,16 +104,8 @@ function SortingGraph(highlighted1, highlighted2) { //draws the barchart onto th
         currX += width + 10;
     }
     }
-
-function GenerateArray() {  //Clears and repopulates the array with random values
-    Values = [];
-    for (var i=0; i<ArraySize; i++) {
-        Values.push(Math.round(Math.random() * 350))
-    }
-    DrawGraph();
-}
 //------------------------------------------------------------------------------------------------------
-//bubblesort Algorithm
+//                                        bubblesort Algorithm                                          |
 //------------------------------------------------------------------------------------------------------
  async function bubbleSort(){
     var len = Values.length;
@@ -119,7 +131,7 @@ function GenerateArray() {  //Clears and repopulates the array with random value
   }
 
 //------------------------------------------------------------------------------------------------------
-//insertion Algorithm
+//                                        insertion Algorithm                                           |
 //------------------------------------------------------------------------------------------------------
 
   async function insertionSort(){
