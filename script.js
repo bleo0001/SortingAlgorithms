@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------------
-//                                  Global Variables                                |
+//                                  Global Variables/Functions                      |
 //-----------------------------------------------------------------------------------
 var Values = [];
 Sortingspeed = 200;
@@ -10,6 +10,56 @@ Quick = "Quick Sort";
 Merge = "Merge Sort";
 Binary = "Binary Tree Sort";
 Insertion ="Insertion";
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function Sort() {
+  if (SelectedAlgorithm == "empty")
+  {
+    window.alert("Please Select An Algorithm First");
+  }else if (SelectedAlgorithm == "Bubble Sort")
+  {
+    bubbleSort();
+  }else if (SelectedAlgorithm == "Quick Sort")
+  {
+    QuickSort();
+  }else if (SelectedAlgorithm == "Merge Sort")
+  {
+    MergeSort();
+  }else if (SelectedAlgorithm == "Binary Tree Sort")
+  {
+    bubbleSort();
+  }
+  else if (SelectedAlgorithm == "Insertion")
+  {
+    insertionSort();
+  }
+}
+function End() {
+  console.log(Values);
+  if (SelectedAlgorithm == "empty")
+  {
+    window.alert("Please Select An Algorithm First");
+  }else if (SelectedAlgorithm == "Bubble Sort")
+  {
+    EndbubbleSort();
+  }else if (SelectedAlgorithm == "Quick Sort")
+  {
+    EndQuickSort();
+  }else if (SelectedAlgorithm == "Merge Sort")
+  {
+    EndMergeSort();
+  }else if (SelectedAlgorithm == "Binary Tree Sort")
+  {
+    EndbubbleSort();
+  }
+  else if (SelectedAlgorithm == "Insertion")
+  {
+    EndinsertionSort();
+  }
+}
 //-----------------------------------------------------------------------------------
 //                                    Control panel                                 |
 //-----------------------------------------------------------------------------------
@@ -43,11 +93,24 @@ async function SelectAlgo(Algorithm){
   SelectedAlgorithm = Algorithm;
 };
 
-function GenerateArray() {  //Clears and repopulates the array with random values
+function GenerateArray() {  //Clears and repopulates the array with Unique random values
   Values = [];
-  for (var i=0; i<ArraySize; i++) {
-      Values.push(Math.round(Math.random() * 350))
+  var i=0;
+  while ( i<ArraySize) {
+      for (var x=0;x<ArraySize;x++){
+        Temp = Math.floor(Math.random() * 350) + 1;
+        if (Values[x]==Temp){
+          console.log("test");
+                 x=ArraySize;
+        }else
+        {
+      Values.push(Temp)
+      i++
+      console.log(Values[x]);
+        }
   }
+}
+
   DrawGraph();
 }
 
@@ -62,13 +125,11 @@ function DrawGraph() { //draws the barchart onto the canvas
 var myCanvas = document.getElementById("myCanvas");
 myCanvas.width = 1200;
 myCanvas.height = 500;
+
 var ctx = myCanvas.getContext("2d");
-
-
 var width = 500/Values.length; //Rectangle width
 var currX = 1; //space between Rectangles
 var base = 400; //Canvas Height
-
 
 ctx.fillStyle = 'green' ;
 for (var i = 0;i<Values.length;i++){
@@ -126,9 +187,19 @@ function SortingGraph(highlighted1, highlighted2) { //draws the barchart onto th
     }
  }
 
- function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+ async function EndbubbleSort(){
+  var len = Values.length;
+  for (var i = len-1; i>=0; i--){  
+    for(var j = 1; j<=i; j++){
+      if(Values[j-1]>Values[j]){
+          var temp = Values[j-1];
+       Values[j-1] = Values[j],50000
+          Values[j] = temp;
+          DrawGraph();      
+       }
+    }
   }
+}
 
 //------------------------------------------------------------------------------------------------------
 //                                        insertion Algorithm                                           |
@@ -136,19 +207,39 @@ function SortingGraph(highlighted1, highlighted2) { //draws the barchart onto th
 
   async function insertionSort(){
     var i, len = Values.length, el, j;
-  
     for(i = 1; i<len; i++){
       el = Values[i];
       j = i;
       while(j>0 && Values[j-1]>el){
+          SortingGraph(j,-1);
+          await sleep(Sortingspeed+100);
           SortingGraph(j,j-1);
-          await sleep(500);
+          await sleep(Sortingspeed);
         Values[j] = Values[j-1];
         j--;
      }
-  
      Values[j] = el;
     }
-  
    DrawGraph();
   }
+
+  async function EndinsertionSort(){
+    var i, len = Values.length, el, j;
+    for(i = 1; i<len; i++){
+      el = Values[i];
+      j = i;
+      while(j>0 && Values[j-1]>el){
+        Values[j] = Values[j-1];
+        j--;
+     }
+     Values[j] = el;
+    }
+   DrawGraph();
+  }
+//------------------------------------------------------------------------------------------------------
+//                                        Binary Tree                                                  |
+//------------------------------------------------------------------------------------------------------
+
+function Node(){
+
+}
